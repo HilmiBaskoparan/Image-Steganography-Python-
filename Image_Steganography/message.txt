@@ -1,0 +1,45 @@
+from __future__ import with_statement
+from PIL import Image
+
+# 'C:/Users/asus/Desktop/png1.png'
+
+im = Image.open('png1.png')
+
+def binToDec(binNum):
+    decNum = 0
+    power = 0
+    while binNum > 0:
+        decNum += 2 ** power * (binNum % 10)
+        binNum //= 10
+        power += 1
+    return decNum
+
+def decToBin(decNum):
+    binNum = 0
+    power = 0
+    while decNum > 0:
+        binNum += 10 ** power * (decNum % 2)
+        decNum //= 2
+        power += 1
+    return binNum
+
+# load the pixel info
+pix = im.load()
+
+# get a tuple of the x and y dimensions of the image
+width, height = im.size
+
+# open a file to write the pixel data
+with open('png.docx', 'w+') as f:
+    f.write('R,G,B\n')
+
+    print("R", "\t\t\t\t", "G", "\t\t\t\t", "B")
+
+    # read the details of each pixel and write them to the file
+    for x in range(width):
+        for y in range(height):
+            r = pix[x, y][0]
+            g = pix[x, y][1]
+            b = pix[x, y][2]
+            f.write('{0},{1},{2}\n'.format(r, g, b))
+            print(str(decToBin(r)), "\t\t", str(decToBin(g)), "\t\t", str(decToBin(b)))
